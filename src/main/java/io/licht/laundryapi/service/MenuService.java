@@ -1,41 +1,35 @@
 package io.licht.laundryapi.service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.licht.laundryapi.model.Menu;
+import io.licht.laundryapi.repository.MenuRepository;
 
 @Service
 public class MenuService 
 {
-    public Map<Integer, Menu> menuRepository = new HashMap<>();
+    @Autowired
+    MenuRepository menuRepository;
 
     public Menu createMenu(Menu menu)
     {
-        int min = 100000;
-        int max = 1000000000;
-        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-
-        menu.setCreateBy("Admin");
-        menu.setId(random_int);
         menu.setCreateAt(new Date(System.currentTimeMillis()));
-        
-        menuRepository.put(menu.getId(), menu);
-        
-        return menuRepository.get(menu.getId());
+        return menuRepository.save(menu);
     }
 
-    public Map<Integer, Menu> getAllMenu()
+    public List<Menu> getAllMenu()
     {
-        return menuRepository;
+        return menuRepository.findAll();
     }
 
-    public Menu getMenuById(Integer id)
+    public Menu getMenuById(UUID id)
     {
-        return menuRepository.get(id);
+        return menuRepository.findById(id).get();
     }
     
 }

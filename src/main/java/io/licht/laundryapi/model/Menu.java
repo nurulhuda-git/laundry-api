@@ -1,12 +1,24 @@
 package io.licht.laundryapi.model;
 
 import java.util.Date;
+import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "menu")
 public class Menu 
 {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private UUID id;
+
     private String name;
     private Double price;
+    private String menuNo;
     private Integer subMenuId;
     private Integer status;
     private Date createAt;
@@ -20,14 +32,9 @@ public class Menu
 
     }
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
     }
 
     public String getName()
@@ -120,5 +127,14 @@ public class Menu
         this.description = description;
     }
 
-    
+    public String getMenuNo()
+    {
+        return menuNo;
+    }
+
+    public void setMenuNo(String menuNo)
+    {
+        this.menuNo = menuNo;
+    }
+
 }
