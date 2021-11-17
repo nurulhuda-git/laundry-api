@@ -1,41 +1,35 @@
 package io.licht.laundryapi.service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.licht.laundryapi.model.Customer;
+import io.licht.laundryapi.repository.CustomerRepository;
 
 @Service
 public class CustomerService 
 {
-    public Map<Integer, Customer> customerRepo = new HashMap<>();
+    @Autowired
+    CustomerRepository customerRepository;
 
     public Customer createCustomer(Customer customer)
     {
-        int min = 100000;
-        int max = 1000000000;
-        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-
-        customer.setCreateBy("Admin");
-        customer.setId(random_int);
         customer.setCreateAt(new Date(System.currentTimeMillis()));
-
-        customerRepo.put(customer.getId(), customer);
-
-        return customerRepo.get(random_int);
+        return customerRepository.save(customer);
     }
 
-    public Map<Integer, Customer> getAllCustomer ()
+    public List<Customer> getAllCustomer ()
     {
-        return customerRepo;
+        return customerRepository.findAll();
     }
 
-    public Customer getCustomerById(Integer id)
+    public Customer getCustomerById(UUID id)
     {
-        return customerRepo.get(id);
+        return customerRepository.findById(id).get();
     }
 
 }

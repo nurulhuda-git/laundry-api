@@ -1,9 +1,11 @@
 package io.licht.laundryapi.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +34,22 @@ public class CreateCustomerController
             result.put("data", null);
             result.put("status", "failed");
         }
+        return result;
+    }
 
-
+    @GetMapping("/")
+    public Map<String, Object> getAllCustomer()
+    {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<Customer> customers = customerService.getAllCustomer();
+            result.put("data", customers);
+            result.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("data", null);
+            result.put("status", "failed");
+        }
         return result;
     }
 }
