@@ -16,7 +16,7 @@ import io.licht.laundryapi.service.CustomerService;
 
 @RestController
 @RequestMapping("/customer")
-public class CreateCustomerController 
+public class CustomerController 
 {
     @Autowired
     CustomerService customerService;
