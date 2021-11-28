@@ -1,9 +1,20 @@
 package io.licht.laundryapi.model;
 
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "qr_data")
 public class QrData 
 {
-    private Integer id;
-    private Integer orderId;
+    @Id
+    @GeneratedValue
+    private UUID id;
+    private UUID orderId;
     private String image;
 
     public QrData()
@@ -11,24 +22,24 @@ public class QrData
 
     }
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(UUID id)
     {
         this.id = id;
     }
 
-    public Integer getOrderId()
+    public UUID getOrderId()
     {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId)
+    public void setOrderId(UUID orderId2)
     {
-        this.orderId = orderId;
+        this.orderId = orderId2;
     }
 
     public String getImage()
