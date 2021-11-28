@@ -2,6 +2,7 @@ package io.licht.laundryapi.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Order 
 {
@@ -19,7 +20,7 @@ public class Order
     private Date modifyAt;
     private String createBy;
     private String modifyBy;
-    private Integer qrId;
+    private UUID qrId;
     private String link;
 
     public Order()
@@ -137,12 +138,12 @@ public class Order
         this.modifyBy = modifyBy;
     }
 
-    public Integer getQrId()
+    public UUID getQrId()
     {
         return qrId;
     }
 
-    public void setQrId(Integer qrId)
+    public void setQrId(UUID qrId)
     {
         this.qrId = qrId;
     }
