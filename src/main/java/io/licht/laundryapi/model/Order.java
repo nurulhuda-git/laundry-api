@@ -4,15 +4,35 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
+@Entity
+@Table(name = "orders")
 public class Order 
 {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private UUID id;
 
-    // private Integer customerId;
+    @ManyToOne
     private Customer customer;
 
-    private String orderNo;
+    @Column(columnDefinition = "serial")
+    @Generated(GenerationTime.INSERT)
+    private Integer orderNo;
+
+    @OneToMany(mappedBy = "order")
     private List<OrderList> orderLists;
+
     private Double totalAmount;
     private Double totalWeight;
     private Integer status;
@@ -28,12 +48,12 @@ public class Order
 
     }
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(UUID id)
     {
         this.id = id;
     }
@@ -48,12 +68,12 @@ public class Order
         this.customer = customer;
     }
 
-    public String getOrderNo()
+    public Integer getOrderNo()
     {
         return orderNo;
     }
 
-    public void setOrderNo(String orderNo)
+    public void setOrderNo(Integer orderNo)
     {
         this.orderNo = orderNo;
     }
