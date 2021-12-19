@@ -27,7 +27,7 @@ public class QrService {
         return qrDataRepository.findById(qrId).get();
     }
 
-    public QrData generateQr(Integer orderId)
+    public QrData generateQr(UUID orderId)
     {
         String filename = path + orderId + "_qrcode.png";
         QrData qr = new QrData();
