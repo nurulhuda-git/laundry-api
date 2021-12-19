@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/laundry_db
+    username: postgres
+    password: rooted
+  jpa:
+    hibernate:
+      ddl-auto: update
+userBucket:
+  path: "./qrcode/"
+tracker:
+  path: "http://localhost:8080/"
+

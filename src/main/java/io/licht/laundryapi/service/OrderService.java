@@ -2,9 +2,8 @@ package io.licht.laundryapi.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 import io.licht.laundryapi.model.Menu;
 import io.licht.laundryapi.model.Order;
 import io.licht.laundryapi.model.OrderList;
+import io.licht.laundryapi.repository.OrderListRepository;
+import io.licht.laundryapi.repository.OrderRepository;
 
 @Service
 public class OrderService 
@@ -25,22 +26,20 @@ public class OrderService
     @Autowired
     QrService qrService;
 
-    public Map<Integer, Order> orderRepo = new HashMap<>();
-    public Map<Integer, OrderList> orderListRepo = new HashMap<>();
+    @Autowired
+    OrderListRepository orderListRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     public Order createOrder(Order order)
     {
-        int min = 100000;
-        int max = 1000000000;
-        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-
-        order.setId(random_int);
         order.setCreateAt(new Date(System.currentTimeMillis()));
         order.setCreateBy("Admin");
-        order.setQrId(qrService.generateQr(order.getId()).getId());
-        order.setOrderNo(order.getId().toString());
         order.setTotalAmount(sumAmmount(order.getOrderLists()));
         order.setTotalWeight(sumWeight(order.getOrderLists()));
+
+        order = orderRepository.save(order);
 
         // Get customer
         order.setCustomer(customerService.getCustomerById(order.getCustomer().getId()));
@@ -51,47 +50,26 @@ public class OrderService
         // Set Link
         order.setLink(linkGenerator(order.getId()));
 
-        orderRepo.put(order.getId(), order);
+        order.setQrId(qrService.generateQr(order.getId()).getId());
 
-        return orderRepo.get(order.getId());
+        return orderRepository.save(order);
     }
 
-    public Order getOrderById(Integer orderId)
+    public Order getOrderById(UUID orderId)
     {
-        Order order = orderRepo.get(orderId);
-
-        // Get customer
-        // order.setCustomer(customerService.getCustomerById(order.getCustomer().getId()));
-        // Set OrderList
-        // order.setOrderLists(orderListRepo.get(order.get));
-        return order;
+        return orderRepository.findById(orderId).get();
     }
 
-    public Order updateStatusOrderById(Integer orderId, Order order)
+    public Order updateStatusOrderById(UUID orderId, Order order)
     {
-        // System.out.println(order.getOrderLists().size());
-        Order savedOrder = getOrderById(orderId);
-
-        Map<Integer, OrderList> orderListUpdate = new HashMap<>();
-        List<OrderList> updatedOrderList = new ArrayList<>();
-
         for (OrderList i : order.getOrderLists())
         {
-            // System.out.println(i.getId());
-            orderListUpdate.put(i.getId(), i);
+            OrderList orderList = orderListRepository.findById(i.getId()).get();
+            orderList.setStatus(i.getStatus());
+            orderListRepository.save(orderList);
         }
 
-        for (OrderList i : savedOrder.getOrderLists()) 
-        {
-            // System.out.println(i.getId());
-            i.setStatus(orderListUpdate.get(i.getId()).getStatus());
-            orderListRepo.replace(i.getId(), i);
-
-            updatedOrderList.add(i);
-        }
-
-        savedOrder.setOrderLists(updatedOrderList);
-        return savedOrder;
+        return getOrderById(orderId);
     }
 
     private Double sumAmmount(List<OrderList> orderLists)
@@ -116,7 +94,7 @@ public class OrderService
         return sumWeight;
     }
 
-    private String linkGenerator(Integer orderId)
+    private String linkGenerator(UUID orderId)
     {
         return orderId.toString();
     }
@@ -126,18 +104,13 @@ public class OrderService
         List<OrderList> orderLists = new ArrayList<>();
         for(OrderList i : order.getOrderLists())
         {
-            int min = 100000;
-            int max = 1000000000;
-            int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-            i.setId(random_int);
-
-            i.setCustomer(order.getCustomer());
             i.setCreateAt(new Date(System.currentTimeMillis()));
             i.setCreateBy(order.getCreateBy());
             i.setStatus(0);
             i.setMenu(menuService.getMenuById(i.getMenu().getId()));
+            i.setOrder(order);
 
-            orderListRepo.put(i.getId(), i);
+            orderListRepository.save(i);
             orderLists.add(i);
         }
 

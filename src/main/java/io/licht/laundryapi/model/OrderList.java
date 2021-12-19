@@ -1,20 +1,31 @@
 package io.licht.laundryapi.model;
 
 import java.util.Date;
+import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class OrderList {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private UUID id;
 
-    // private Integer customerId;
-    private Customer customer;
-
-    // private Integer menuId;
+    @ManyToOne
     private Menu menu;
 
-    private Integer orderNo;
+    @ManyToOne
+    @JsonIgnore
+    private Order order;
 
     private Integer weight;
     private Integer status;
+
     private Date createAt;
     private Date modifyAt;
     private String createBy;
@@ -23,24 +34,14 @@ public class OrderList {
     public OrderList()
     {}
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(UUID id)
     {
         this.id = id;
-    }
-
-    public Customer getCustomer()
-    {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer)
-    {
-        this.customer = customer;
     }
 
     public Menu getMenu()
@@ -51,16 +52,6 @@ public class OrderList {
     public void setMenu(Menu menu)
     {
         this.menu = menu;
-    }
-
-    public Integer getOrderNo()
-    {
-        return orderNo;
-    }
-
-    public void setOrderNo(Integer orderNo)
-    {
-        this.orderNo = orderNo;
     }
 
     public Integer getWeight()
@@ -123,5 +114,13 @@ public class OrderList {
         this.modifyBy = modifyBy;
     }
 
-    
+    public Order getOrder()
+    {
+        return order;
+    }
+
+    public void setOrder(Order order)
+    {
+        this.order = order;
+    }
 }

@@ -1,14 +1,71 @@
 package io.licht.laundryapi.model;
 
+import java.util.Date;
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User 
 {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private UUID id;
     private String name;
     private String email;
     private String idCard;
     private String userName;
     private String password;
     private Integer roleId;
+    private Date createAt;
+    private String createBy;
+    private Date modifyAt;
+    private String modifyBy;
+
+    public Date getCreateAt()
+    {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt)
+    {
+        this.createAt = createAt;
+    }
+
+    public String getCreateBy()
+    {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy)
+    {
+        this.createBy = createBy;
+    }
+
+    public Date getModifyAt()
+    {
+        return modifyAt;
+    }
+
+    public void setModifyAt(Date modifyAt)
+    {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy()
+    {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy)
+    {
+        this.modifyBy = modifyBy;
+    }
+
     private String status;
 
     public User()
@@ -16,14 +73,9 @@ public class User
 
     }
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
     }
 
     public String getName()

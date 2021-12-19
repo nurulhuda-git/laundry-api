@@ -1,21 +1,20 @@
 package io.licht.laundryapi.model;
 
 import java.util.Date;
-// import java.util.UUID;
+import java.util.UUID;
 
-// import javax.persistence.Entity;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.Id;
-// import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-// @Entity
-// @Table(name = "customer")
+@Entity
+@Table(name = "customer")
 public class Customer {
-    // @Id
-    // @GeneratedValue
-    // private UUID id;
+    @Id
+    @GeneratedValue
+    private UUID id;
 
-    private Integer id;
     private String name;
     private String phoneNumber;
     private String address;
@@ -28,14 +27,9 @@ public class Customer {
         
     }
 
-    public Integer getId()
+    public UUID getId()
     {
         return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
     }
 
     public String getName()

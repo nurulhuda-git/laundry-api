@@ -2,6 +2,7 @@ package io.licht.laundryapi.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class OrderController
     }
 
     @GetMapping("/{orderId}")
-    public Map<String, Object> getOrderById(@PathVariable Integer orderId)
+    public Map<String, Object> getOrderById(@PathVariable UUID orderId)
     {
         Map<String, Object> result = new HashMap<>();
         try {
@@ -56,7 +57,7 @@ public class OrderController
     }
 
     @PutMapping("/{orderId}")
-    public Map<String, Object> updateStatusOrderById(@PathVariable Integer orderId, @RequestBody Order order)
+    public Map<String, Object> updateStatusOrderById(@PathVariable UUID orderId, @RequestBody Order order)
     {
         Map<String, Object> result = new HashMap<>();
         try {

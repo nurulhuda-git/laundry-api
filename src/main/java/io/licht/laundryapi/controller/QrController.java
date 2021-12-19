@@ -2,6 +2,7 @@ package io.licht.laundryapi.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class QrController {
     QrService qrService;
 
     @GetMapping("/{qrId}")
-    public Map<String, Object> getQrById (@PathVariable Integer qrId)
+    public Map<String, Object> getQrById (@PathVariable UUID qrId)
     {
         Map<String, Object> result = new HashMap<>();
         try {
