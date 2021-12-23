@@ -52,4 +52,20 @@ public class UserController
         }
         return result;
     }
+
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody User user)
+    {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            User userExists = userService.checkLogin(user);
+            result.put("data", userExists);
+            result.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("data", null);
+            result.put("status", "failed, exception : " + e.getMessage());
+        }
+        return result;
+    }
 }
